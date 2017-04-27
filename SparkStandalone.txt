@@ -1,0 +1,38 @@
+# Primero descargamos la version mas reciente de Spark de http://spark.apache.org/downloads.html
+
+# Descomprimimos el paquete
+
+	tar -zxf /<ruta archivo>/spark-2.1.0.tgz
+
+# Movemos la carpeta
+	mv /<ruta descompresion>/spark-2.1.0 /usr/local/spark
+
+# Configuraos las variables del sistema para las rutas de spark.
+# Para ello editamos el archivo bashrc
+	
+	sudo nano /etc/bash.bashrc
+
+# Dentro del archivo añadimos las lineas
+	
+	export SPARK_HOME=/usr/local/spark
+	export PATH=$PATH:/usr/local/spark/bin
+
+# y lo guardamos, luego ejecutamos
+
+	source /etc/bash.bashrc
+
+# Tras esto podemos arrancar el master de spark
+	
+	/usr/local/spark/sbin/start-master.sh
+
+# se le puede añadir la opcion --port XXXX, para un puesto en concreto, por defecto iniciara en el 7077
+# mas opciones en http://spark.apache.org/docs/latest/spark-standalone.html
+# tambien debemos iniciar un trabajador.
+
+	/usr/local/spark/sbin/start-slave <master-spark-URL:port>
+
+# Se puede ver el estado, trabajadores, aplicaciones corriendo y finalizadas en http://localhost:8080
+# ademas de ver <master-spark-URL:port> del tipo spark://<equipo>:<port>
+# Tras esto se le puede pasar aplicaciones python mediante el comando
+
+	/usr/local/spark/bin/spark-submit --master <spark://<equipo>:<port>> --executor-memory <memoria> --total-executor-cores <nucleos> <Aplicacion.py>
